@@ -1,20 +1,20 @@
-package com.ktcatv.qtms.exception;
+package com.clsr0901.blog.exception;
 
 
-import com.ktcatv.qtms.applicationEnum.ExceptionEnum;
+import com.clsr0901.blog.appEnum.ExceptionEnum;
 import lombok.Data;
 
 @Data
-public class QTMSException extends RuntimeException {
+public class BException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
     private Integer code;  //错误码
 
-    public QTMSException() {
+    public BException() {
     }
 
-    public QTMSException(ExceptionEnum exceptionEnum) {
+    public BException(ExceptionEnum exceptionEnum) {
         super(exceptionEnum.getMsg());
         this.code = exceptionEnum.getCode();
     }

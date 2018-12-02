@@ -1,4 +1,89 @@
 package com.clsr0901.blog.entity;
 
-public class User {
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
+@Data
+public class User implements UserDetails {
+    /**
+     * 用户ID
+     */
+    @ApiModelProperty(value = "用户ID", name = "id")
+    private int id;
+    /**
+     * 用户名
+     */
+    @ApiModelProperty(value = "用户名", name = "username")
+    private String username;
+    /**
+     * 密码
+     */
+    @ApiModelProperty(value = "密码", name = "password")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    /**
+     * 头像
+     */
+    @ApiModelProperty(value = "头像", name = "avatar")
+    private String avatar;
+    /**
+     * 用户邮箱
+     */
+    @ApiModelProperty(value = "用户邮箱", name = "email")
+    private String email;
+    /**
+     * 用户手机号码
+     */
+    @ApiModelProperty(value = "用户手机号码", name = "phone")
+    private String phone;
+    /**
+     * 用户自我介绍
+     */
+    @ApiModelProperty(value = "用户自我介绍", name = "instruction")
+    private String instruction;
+    /**
+     *创建时间
+     */
+    @ApiModelProperty(value = "创建时间", name = "createtime")
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private String createtime;
+
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return new ArrayList<>();
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
