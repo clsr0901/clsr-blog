@@ -12,6 +12,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BlogService {
     @Autowired
@@ -31,5 +33,23 @@ public class BlogService {
             blogMapper.update(result);
         }
         return ResultUtil.success(blogMapper.findById(blog.getId()));
+    }
+
+    public Result<List<Blog>> findAll(){
+        return ResultUtil.success(blogMapper.findAll());
+    }
+
+    public Result<Blog> findById(int id) {
+        Blog result = blogMapper.findById(id);
+        if (result == null)
+            throw new BException(ExceptionEnum.BLOG_NOT_EXITS);
+        return ResultUtil.success(result);
+    }
+
+    public Result<List<Blog>> findByUserId(int userId) {
+        if (userMapper.findById(userId) == null)
+            throw new BException(ExceptionEnum.USER_NOT_EXITS);
+        List<Blog> result = blogMapper.findByUserId(userId);
+        return ResultUtil.success(result);
     }
 }

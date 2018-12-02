@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum ExceptionEnum {
     USERNAME_AND_PASSWORD_ERROR(510, "用户名密码错误"),
     USER_NOT_EXITS(511, "用户不存在"),
+    BLOG_NOT_EXITS(512, "博客不存在"),
 
     TOKEN_EXPIRED(417, "token失效"),
 
