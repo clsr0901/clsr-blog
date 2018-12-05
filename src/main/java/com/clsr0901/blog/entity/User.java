@@ -6,10 +6,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 public class User implements UserDetails {
@@ -56,11 +58,23 @@ public class User implements UserDetails {
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private String createtime;
 
-
+    /**
+     * 用户权限组
+     */
     @JsonIgnore
+    @ApiModelProperty(value = "用户权限组", name = "roles")
+    private List<Role> roles;
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        List<GrantedAuthority> auths = new ArrayList<>();
+        List<Role> roles = getRoles();
+        for(Role role : roles)
+        {
+            auths.add(new SimpleGrantedAuthority(role.getName()));
+        }
+        return auths;
     }
 
     @JsonIgnore

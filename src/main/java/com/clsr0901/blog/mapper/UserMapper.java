@@ -1,7 +1,11 @@
 package com.clsr0901.blog.mapper;
 
+import com.clsr0901.blog.entity.Role;
 import com.clsr0901.blog.entity.User;
+import com.google.gson.Gson;
 import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface UserMapper {
@@ -47,8 +51,11 @@ public interface UserMapper {
             @Result(property = "phone", column = "phone"),
             @Result(property = "instruction", column = "instruction"),
             @Result(property = "createtime", column = "createtime"),
+            @Result(property = "roles", column = "id",
+                    many = @Many(select = "com.clsr0901.blog.mapper.RoleMapper.findByUserId"))
     })
-    @Select({"select ", ALL_FILEDS, " from ", DBNAME, "where", USERNAME, "= #{username}"})
+    @Select({"SELECT tu.* FROM t_user tu",
+            "WHERE tu.username = #{username}"})
     public User findByUsername(@Param("username") String username);
 
     @Results({
