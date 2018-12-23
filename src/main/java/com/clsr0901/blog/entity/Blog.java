@@ -28,6 +28,11 @@ public class Blog {
     @ApiModelProperty(value = "博客内容", name = "content")
     private String content;
     /**
+     * 博客摘要
+     */
+    @ApiModelProperty(value = "博客摘要", name = "summary")
+    private String summary;
+    /**
      * 点赞数
      */
     @ApiModelProperty(value = "点赞数", name = "hit")
@@ -55,9 +60,9 @@ public class Blog {
     private String createtime;
 
     /**
-     *创建时间
+     *更新时间
      */
-    @ApiModelProperty(value = "创建时间", name = "updatetime")
+    @ApiModelProperty(value = "更新时间", name = "updatetime")
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private String updatetime;
 }

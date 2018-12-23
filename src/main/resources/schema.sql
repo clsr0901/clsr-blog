@@ -38,3 +38,34 @@ CREATE TABLE IF NOT EXISTS blog.t_blog (
   CHARACTER SET utf8
   COLLATE utf8_general_ci
   COMMENT = '博客表';
+
+CREATE TABLE blog.t_message (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  destUserId int(11) NOT NULL COMMENT '目标人id',
+  sourceUserId int(11) NOT NULL COMMENT '留言人id',
+  message text NOT NULL COMMENT '留言信息',
+  createTime datetime DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  AUTO_INCREMENT = 27
+  AVG_ROW_LENGTH = 655
+  CHARACTER SET utf8
+  COLLATE utf8_general_ci
+  COMMENT = '留言表';
+
+CREATE TABLE blog.t_comment (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  blogId int(11) NOT NULL COMMENT '博客id',
+  content text NOT NULL COMMENT '评论内容',
+  action int(2) NOT NULL DEFAULT 0 COMMENT '0 评论， 1 回复',
+  sourceUserId int(11) NOT NULL COMMENT '评论人id',
+  destUserId int(11) DEFAULT NULL COMMENT '目标人id，回复才有',
+  createtime datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (id)
+)
+  ENGINE = INNODB
+  AUTO_INCREMENT = 1
+  CHARACTER SET utf8
+  COLLATE utf8_general_ci
+  COMMENT = '博客评论表';

@@ -4,11 +4,15 @@ import com.clsr0901.blog.appEnum.ExceptionEnum;
 import com.clsr0901.blog.entity.Result;
 import com.clsr0901.blog.entity.User;
 import com.clsr0901.blog.exception.BException;
+import com.clsr0901.blog.mapper.BlogMapper;
+import com.clsr0901.blog.mapper.CommentMapper;
 import com.clsr0901.blog.mapper.UserMapper;
 import com.clsr0901.blog.util.ResultUtil;
 import com.clsr0901.blog.util.TokenUtil;
+import com.clsr0901.blog.vo.UserVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +29,10 @@ public class UserService implements UserDetailsService {
     private static final Integer TOKEN_EXPIRATION = 30 * 60 * 1000;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private BlogMapper blogMapper;
+    @Autowired
+    private CommentMapper commentMapper;
 
     public Result<User> save(User user) {
         User result = userMapper.findById(user.getId());
@@ -48,6 +56,17 @@ public class UserService implements UserDetailsService {
         if (result == null || !result.getPassword().equals(user.getPassword()))
             throw new BException(ExceptionEnum.USERNAME_AND_PASSWORD_ERROR);
         return ResultUtil.success(result, "Bearer " + TokenUtil.getToken(result.getUsername(), TOKEN_EXPIRATION));
+    }
+
+    public Result<UserVO> findUserById(int userId){
+        User user = userMapper.findById(userId);
+        if (user == null)
+            throw new BException(ExceptionEnum.USER_NOT_EXITS);
+        UserVO result = new UserVO();
+        BeanUtils.copyProperties(user, result);
+        result.setBlogs(blogMapper.countByUserId(userId));
+        result.setComments(commentMapper.countByUserId(userId));
+        return ResultUtil.success(result);
     }
 
     @Override

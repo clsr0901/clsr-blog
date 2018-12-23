@@ -35,6 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/login/*").permitAll()
+                .antMatchers("/").permitAll()
                 // swagger start
                 .antMatchers("/swagger-ui.html").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
@@ -47,7 +48,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/source/**").permitAll()
                 .antMatchers("/index.html").permitAll()
                 .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/").permitAll()
+                .antMatchers("/*.js").permitAll()
+                .antMatchers("/*.css").permitAll()
+                .antMatchers("/assets/**").permitAll()
                 // swagger end
                 .anyRequest().authenticated()
                 .and()
