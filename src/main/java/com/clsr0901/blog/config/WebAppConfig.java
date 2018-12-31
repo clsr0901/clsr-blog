@@ -1,5 +1,6 @@
 package com.clsr0901.blog.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 @Configuration
+@Slf4j
 public class WebAppConfig extends WebMvcConfigurerAdapter{
 
     @Value("${upload-path}")
@@ -75,7 +77,8 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
                 .addResourceLocations("classpath:/resources/")
                 .addResourceLocations("classpath:/static/")
                 .addResourceLocations("classpath:/public/");
-        registry.addResourceHandler("/source/**").addResourceLocations("file:" + filePath);
+        registry.addResourceHandler("/source/**").addResourceLocations("file:///" + filePath);//linux
+//        registry.addResourceHandler("/source/**").addResourceLocations("file:" + filePath);//windwos
         super.addResourceHandlers(registry);
     }
 }

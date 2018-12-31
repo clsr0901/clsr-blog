@@ -27,8 +27,6 @@ public class BlogController {
         return blogService.save(blog);
     }
 
-
-
     @PostMapping("/post")
     @ApiOperation(value = "更新博客", notes = "根据用户ID查询博客接口/blog/post", tags = "BlogController", httpMethod = "POST")
     public Result post(@RequestBody @ApiParam(name = "Blog 对象", value = "传入博客对象", required = true) Blog blog) {
@@ -43,10 +41,17 @@ public class BlogController {
     }
 
     @GetMapping("/get")
-    @ApiOperation(value = "查询所有博客", notes = "根据ID查询博客接口/query/{id}", tags = "BlogController", httpMethod = "GET")
+    @ApiOperation(value = "查询所有博客", notes = "根据ID查询博客接口/get", tags = "BlogController", httpMethod = "GET")
     public Result<List<BlogVO>> findAll() {
         log.info("查询所有博客");
         return blogService.findAll();
+    }
+
+    @PostMapping("/post/keycode")
+    @ApiOperation(value = "根据条件查询所有博客", notes = "根据条件查询所有博客接口/get/keycode/{keycode}", tags = "BlogController", httpMethod = "POST")
+    public Result<List<BlogVO>> findAllByKeycode(@RequestBody @ApiParam(name = "查询关键字", value = "传入String", required = true) String keycode) {
+        log.info("根据条件查询所有博客 keycode={}", keycode);
+        return blogService.findAllByKeycode(keycode);
     }
 
     @GetMapping("/get/{id}")

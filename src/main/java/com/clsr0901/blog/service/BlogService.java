@@ -61,6 +61,15 @@ public class BlogService {
         return ResultUtil.success(blogVOS);
     }
 
+    public Result<List<BlogVO>> findAllByKeycode(String keycode) {
+        List<Blog> blogs = blogMapper.findAllByKeycode("%" + keycode + "%");
+        List<BlogVO> blogVOS = new ArrayList<BlogVO>();
+        blogs.forEach(blog -> {
+            blogVOS.add(blogToBlogDTO(blog));
+        });
+        return ResultUtil.success(blogVOS);
+    }
+
     public Result delete(int id) {
         Blog blog = blogMapper.findById(id);
         if (blog == null)

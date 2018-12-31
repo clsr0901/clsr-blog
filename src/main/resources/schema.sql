@@ -69,3 +69,23 @@ CREATE TABLE blog.t_comment (
   CHARACTER SET utf8
   COLLATE utf8_general_ci
   COMMENT = '博客评论表';
+
+CREATE TABLE blog.t_source (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  name varchar(255) NOT NULL DEFAULT '' COMMENT '文件名',
+  uid varchar(32) NOT NULL DEFAULT '' COMMENT '文件md5值',
+  url varchar(100) NOT NULL DEFAULT '' COMMENT '文件路径',
+  createtime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  userid int(11) NOT NULL COMMENT '创建人id',
+  length int(11) NOT NULL COMMENT '文件大小',
+  mime varchar(20) NOT NULL COMMENT '文件mime',
+  type int(2) NOT NULL DEFAULT 1 COMMENT '文件类型： 0 文本txt， 1 图片audio, 2 音频audio，3 视频video, 4 其他文件zip',
+  PRIMARY KEY (id),
+  UNIQUE INDEX md5 (uid)
+)
+  ENGINE = INNODB
+  AUTO_INCREMENT = 40
+  AVG_ROW_LENGTH = 3276
+  CHARACTER SET utf8
+  COLLATE utf8_general_ci
+  COMMENT = '资源文件表';

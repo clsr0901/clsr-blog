@@ -67,6 +67,25 @@ public interface BlogMapper {
             @Result(property = "createtime", column = "createtime"),
             @Result(property = "updatetime", column = "updatetime"),
     })
+    @Select({"SELECT tb.* FROM t_blog tb LEFT JOIN t_user tu ON tb.userId = tu.id WHERE",
+            "tb.title LIKE binary  #{keycode} OR tb.content LIKE binary  #{keycode} OR tb.summary LIKE binary  #{keycode}",
+            " OR tb.createtime LIKE binary  #{keycode} OR tb.updatetime LIKE binary  #{keycode} OR tu.email LIKE binary  #{keycode}",
+            " OR tu.username LIKE binary  #{keycode} OR tu.phone LIKE binary  #{keycode} OR tu.instruction LIKE binary  #{keycode}",
+            " order by createtime DESC"})
+    public List<Blog> findAllByKeycode(@Param("keycode") String keycode);
+
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "userId", column = "userId"),
+            @Result(property = "content", column = "content"),
+            @Result(property = "title", column = "title"),
+            @Result(property = "hit", column = "hit"),
+            @Result(property = "view", column = "view"),
+            @Result(property = "sticky", column = "sticky"),
+            @Result(property = "highlight", column = "highlight"),
+            @Result(property = "createtime", column = "createtime"),
+            @Result(property = "updatetime", column = "updatetime"),
+    })
     @Select({"select ", ALL_FILEDS, "from", DBNAME, "where", ID, "= #{id}"})
     public Blog findById(@Param("id") int id);
 

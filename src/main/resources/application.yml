@@ -1,10 +1,10 @@
-upload-path: F:/qtms/resource/
+upload-path: F:/blog/resource/
 #database-path: 132.232.92.140:3306
 database-path: 127.0.0.1:3306
 database-username: root
 database-password: ktcatv
 port: 8080
-log-path: F:/qtms/log/
+log-path: F:/blog/log/
 
 
 server:
@@ -18,10 +18,10 @@ spring:
      username: ${database-username}
      password: ${database-password}
      driver-class-name: com.mysql.jdbc.Driver
-  resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:file:${upload-path}
-  mvc:
-    static-path-pattern: /static/**
+#  resources:
+#    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:file:${upload-path}
+#  mvc:
+#    static-path-pattern: /static/**
   http:
     encoding:
       charset: UTF-8
