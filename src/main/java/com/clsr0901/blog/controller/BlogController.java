@@ -1,5 +1,6 @@
 package com.clsr0901.blog.controller;
 
+import com.clsr0901.blog.entity.PageQuery;
 import com.clsr0901.blog.vo.BlogVO;
 import com.clsr0901.blog.entity.Blog;
 import com.clsr0901.blog.entity.Result;
@@ -47,15 +48,15 @@ public class BlogController {
         return blogService.findAll();
     }
 
-    @PostMapping("/post/keycode")
-    @ApiOperation(value = "根据条件查询所有博客", notes = "根据条件查询所有博客接口/get/keycode/{keycode}", tags = "BlogController", httpMethod = "POST")
-    public Result<List<BlogVO>> findAllByKeycode(@RequestBody @ApiParam(name = "查询关键字", value = "传入String", required = true) String keycode) {
-        log.info("根据条件查询所有博客 keycode={}", keycode);
-        return blogService.findAllByKeycode(keycode);
+    @PostMapping("/post/keyword")
+    @ApiOperation(value = "根据条件查询所有博客", notes = "根据条件查询所有博客接口/blog/post/keyword", tags = "BlogController", httpMethod = "POST")
+    public Result<List<BlogVO>> findAllByKeycode(@RequestBody @ApiParam(name = "查询关键字", value = "传入String", required = true) PageQuery pageQuery) {
+        log.info("根据条件查询所有博客 pageQuery={}", pageQuery);
+        return blogService.findAllByKeycode(pageQuery);
     }
 
     @GetMapping("/get/{id}")
-    @ApiOperation(value = "根据ID查询博客", notes = "根据ID查询博客接口/query/{id}", tags = "BlogController", httpMethod = "GET")
+    @ApiOperation(value = "根据ID查询博客", notes = "根据ID查询博客接口/blog/get/{id}", tags = "BlogController", httpMethod = "GET")
     public Result<BlogVO> findById(@PathVariable("id") @ApiParam(name = "Blog ID", value = "传入博客id", required = true) int id) {
         log.info("根据ID查询博客 id={}", id);
         return blogService.findById(id);

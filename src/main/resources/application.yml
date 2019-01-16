@@ -28,6 +28,7 @@ spring:
       force: true
       enabled: true
 
+
 #日志路径
 logging:
   path: ${log-path}
@@ -35,3 +36,8 @@ logging:
     max-size: 10Mb
   level:
     com.ktcatv.qtms.mapper: debug
+
+pagehelper:
+  reasonable: false
+  support-methods-arguments: true
+  helper-dialect: mysql

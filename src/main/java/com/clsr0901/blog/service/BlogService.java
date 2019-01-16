@@ -1,6 +1,7 @@
 package com.clsr0901.blog.service;
 
 import com.clsr0901.blog.appEnum.ExceptionEnum;
+import com.clsr0901.blog.entity.PageQuery;
 import com.clsr0901.blog.mapper.CommentMapper;
 import com.clsr0901.blog.vo.BlogVO;
 import com.clsr0901.blog.entity.Blog;
@@ -11,6 +12,7 @@ import com.clsr0901.blog.mapper.BlogMapper;
 import com.clsr0901.blog.mapper.UserMapper;
 import com.clsr0901.blog.util.BlogStringUtil;
 import com.clsr0901.blog.util.ResultUtil;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,7 @@ public class BlogService {
         if (user == null)
             throw new BException(ExceptionEnum.USER_NOT_EXITS);
         Blog result = blogMapper.findById(blog.getId());
-        blog.setSummary(BlogStringUtil.removeTag(blog.getContent(), blog.getContent().length() < 200? blog.getContent().length():200));
+        blog.setSummary(BlogStringUtil.removeTag(blog.getContent(), blog.getContent().length() < 200 ? blog.getContent().length() : 200));
         if (result == null) {
             blogMapper.insert(blog);
         } else {
@@ -42,11 +44,11 @@ public class BlogService {
         return ResultUtil.success();
     }
 
-    public Result post(Blog blog){
+    public Result post(Blog blog) {
         Blog result = blogMapper.findById(blog.getId());
-        if(result == null)
+        if (result == null)
             throw new BException(ExceptionEnum.BLOG_NOT_EXITS);
-        blog.setSummary(BlogStringUtil.removeTag(blog.getContent(), blog.getContent().length() < 200? blog.getContent().length():200));
+        blog.setSummary(BlogStringUtil.removeTag(blog.getContent(), blog.getContent().length() < 200 ? blog.getContent().length() : 200));
         BeanUtils.copyProperties(blog, result);
         blogMapper.updateContent(result);
         return ResultUtil.success();
@@ -61,8 +63,15 @@ public class BlogService {
         return ResultUtil.success(blogVOS);
     }
 
-    public Result<List<BlogVO>> findAllByKeycode(String keycode) {
-        List<Blog> blogs = blogMapper.findAllByKeycode("%" + keycode + "%");
+    public Result<List<BlogVO>> findAllByKeycode(PageQuery pageQuery) {
+        if (pageQuery.getPageNum() < 1) {
+            pageQuery.setPageNum(1);
+        }
+        if (pageQuery.getPageSize() < 0) {
+            pageQuery.setPageSize(10);
+        }
+        PageHelper.startPage(pageQuery.getPageNum(), pageQuery.getPageSize());
+        List<Blog> blogs = blogMapper.findAllByKeycode("%" + pageQuery.getKeyword() + "%");
         List<BlogVO> blogVOS = new ArrayList<BlogVO>();
         blogs.forEach(blog -> {
             blogVOS.add(blogToBlogDTO(blog));
