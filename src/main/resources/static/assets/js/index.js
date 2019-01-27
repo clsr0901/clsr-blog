@@ -99,9 +99,7 @@ var utils = {
 }
 
 // basic setup  :) 
-console.log(document)
 canvas = document.getElementById("canvas");
-console.log(canvas)
 var ctx = canvas.getContext('2d');
 W = canvas.width = window.innerWidth;
 H = canvas.height = window.innerHeight/3;

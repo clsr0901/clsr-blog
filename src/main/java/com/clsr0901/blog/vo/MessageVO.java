@@ -15,13 +15,13 @@ public class MessageVO {
      * 目标人姓名
      */
     @ApiModelProperty(value = "目标人姓名", name = "destUserName")
-    private int destUserName;
+    private String destUserName;
 
     /**
      * 留言人姓名
      */
     @ApiModelProperty(value = "留言人姓名", name = "sourceUserName")
-    private int sourceUserName;
+    private String sourceUserName;
     /**
      * 留言信息
      */

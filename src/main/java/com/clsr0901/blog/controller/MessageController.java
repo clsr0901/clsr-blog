@@ -22,7 +22,7 @@ public class MessageController {
 
     @PutMapping("/put")
     @ApiOperation(value = "新增留言", notes = "新增留言接口 /message/put", tags = "MessageController", httpMethod = "PUT")
-    public Result put(@RequestBody @ApiParam(name = "Message对象", value = "传入json格式", required = true)Message message){
+    public Result<MessageVO> put(@RequestBody @ApiParam(name = "Message对象", value = "传入json格式", required = true)Message message){
         log.info("新增留言 message={}", message);
         return messageService.put(message);
     }

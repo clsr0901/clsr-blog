@@ -38,7 +38,8 @@ public class User implements UserDetails {
     @ApiModelProperty(value = "头像", name = "avatar")
     private String avatar;
     /**
-     * 用户邮箱
+     *
+     *
      */
     @ApiModelProperty(value = "用户邮箱", name = "email")
     private String email;

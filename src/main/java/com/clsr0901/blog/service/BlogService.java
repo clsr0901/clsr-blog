@@ -64,6 +64,14 @@ public class BlogService {
     }
 
     public Result<List<BlogVO>> findAllByKeycode(PageQuery pageQuery) {
+        if(pageQuery.getPageNum() == -1){
+            List<Blog> blogs = blogMapper.findAllByKeycode("%" + pageQuery.getKeyword() + "%");
+            List<BlogVO> blogVOS = new ArrayList<BlogVO>();
+            blogs.forEach(blog -> {
+                blogVOS.add(blogToBlogDTO(blog));
+            });
+            return ResultUtil.success(blogVOS);
+        }
         if (pageQuery.getPageNum() < 1) {
             pageQuery.setPageNum(1);
         }

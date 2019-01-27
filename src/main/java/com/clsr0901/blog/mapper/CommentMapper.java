@@ -45,6 +45,20 @@ public interface CommentMapper {
             @Result(property = "action", column = "action"),
             @Result(property = "createtime", column = "createtime"),
     })
+    @Select({"SELECT * from", DBNAME, "where", ID, "= #{id}"})
+    public CommentVO findById(@Param("id") int id);
+
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "content", column = "content"),
+            @Result(property = "blogId", column = "blogId"),
+            @Result(property = "destUserId", column = "destUserId"),
+            @Result(property = "destUserName", column = "destUserName"),
+            @Result(property = "sourceUserId", column = "sourceUserId"),
+            @Result(property = "sourceUserName", column = "sourceUserName"),
+            @Result(property = "action", column = "action"),
+            @Result(property = "createtime", column = "createtime"),
+    })
     @Select({"SELECT tc.*, tu.username AS sourceUserName, tu1.username AS destUserName FROM t_comment tc ",
             "LEFT JOIN t_user tu ON tc.sourceUserId = tu.id",
             "LEFT JOIN t_user tu1 ON tc.destUserId = tu1.id WHERE tc.blogId = #{blogId} order by", CREATETIME, "desc"})

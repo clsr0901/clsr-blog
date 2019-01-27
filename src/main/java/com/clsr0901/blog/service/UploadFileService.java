@@ -27,12 +27,18 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Service
 @Slf4j
 public class UploadFileService {
     @Value("${upload-path}")
     private String filePath;
+
+    @Value("${blog-env}")
+    private String blogEnv;
 
     @Value("${port}")
     private String port;
@@ -42,8 +48,11 @@ public class UploadFileService {
     @Autowired
     private UserMapper userMapper;
 
-    public Result<Integer> chunk(HttpServletRequest request, HttpServletResponse response, String md5, String ext, Integer chunk,
+    public Result<Integer> chunk(HttpServletRequest request, HttpServletResponse response, String md5, Integer chunk,
                                  MultipartFile file, Integer chunks) {
+        if (file == null || md5 == null || chunk == null || chunks == null) {
+            throw new BException(ExceptionEnum.USER_NOT_EXITS);
+        }
         Source source = sourceMapper.findByMd5(md5);
         if (source != null) {
             return ResultUtil.success(chunks);
@@ -107,18 +116,22 @@ public class UploadFileService {
                 // 删除临时目录中的分片文件
                 FileUtils.deleteDirectory(parentFileDir);
                 log.info("destTempfos={}", destTempFile);
-                /**
-                 * Windows下的文件保存
-                 */
-                sourceMapper.insert(new Source(UserUtil.getCurrentUser(userMapper).getId(), fileName, md5, "http://localhost:8080/source/merge/" + fileName,
-                        destTempFile.length(), ext, getType(ext)));
-                /**
-                 * linu下的文件保存
-                 */
-//                sourceMapper.insert(new Source(UserUtil.getCurrentUser(userMapper).getId(), fileName, md5,
-//                        "http://132.232.92.140:" + port +
-//                        "/source/merge/" + fileName,
-//                        destTempFile.length(), ext, getType(ext)));
+                String mime = getContentType(destTempFile.getAbsolutePath());
+                if (blogEnv.equals("windows")) {
+                    /**
+                     * Windows下的文件保存
+                     */
+                    sourceMapper.insert(new Source(UserUtil.getCurrentUser(userMapper).getId(), fileName, md5, "http://localhost:8080/source/merge/" + fileName,
+                            destTempFile.length(), mime, getType(mime)));
+                } else {
+                    /**
+                     * linu下的文件保存
+                     */
+                    sourceMapper.insert(new Source(UserUtil.getCurrentUser(userMapper).getId(), fileName, md5,
+                            "http://132.232.92.140:" + port +
+                                    "/source/merge/" + fileName,
+                            destTempFile.length(), mime, getType(mime)));
+                }
                 return ResultUtil.success(sourceMapper.findByMd5(md5));
             }
         } catch (Exception e) {
@@ -127,6 +140,17 @@ public class UploadFileService {
             throw new BException(ExceptionEnum.UPLOAD_ERROR);
         }
         return null;
+    }
+
+    public String getContentType(String filename) {
+        String type = null;
+        Path path = Paths.get(filename);
+        try {
+            type = Files.probeContentType(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return type;
     }
 
     //上传附件

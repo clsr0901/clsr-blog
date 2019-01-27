@@ -28,7 +28,7 @@ public class CommentVO {
      * 目标人名称
      */
     @ApiModelProperty(value = "目标人名称", name = "destUserName")
-    private int destUserName;
+    private String destUserName;
 
     /**
      * 评论人id
@@ -40,7 +40,7 @@ public class CommentVO {
      * 评论人名称
      */
     @ApiModelProperty(value = "评论人名称", name = "sourceUserName")
-    private int sourceUserName;
+    private String sourceUserName;
     /**
      * 评论内容
      */

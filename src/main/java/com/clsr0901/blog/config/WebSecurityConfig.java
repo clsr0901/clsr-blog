@@ -51,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*.js").permitAll()
                 .antMatchers("/*.css").permitAll()
                 .antMatchers("/assets/**").permitAll()
+                .antMatchers("/web/**").permitAll()
                 // swagger end
                 .anyRequest().authenticated()
                 .and()

@@ -23,13 +23,13 @@ public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
 
-    public Result<Comment> put(Comment comment) {
+    public Result<CommentVO> put(Comment comment) {
         if (blogMapper.findById(comment.getBlogId()) == null)
             throw new BException(ExceptionEnum.BLOG_NOT_EXITS);
         if (userMapper.findById(comment.getSourceUserId()) == null)
             throw new BException(ExceptionEnum.USER_NOT_EXITS);
         commentMapper.insert(comment);
-        return ResultUtil.success(comment);
+        return ResultUtil.success(commentMapper.findById(comment.getId()));
     }
 
     public Result delete(int id) {

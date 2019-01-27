@@ -32,7 +32,7 @@ public class UploadFileController {
      * @param file
      * @param chunks
      */
-    @RequestMapping("/chunk")
+    @PostMapping("/chunk")
     @ApiOperation(value = "分片上传文件", notes = "分片上传文件接口/upload/chunk", tags = "UploadFileController", httpMethod = "POST")
     public Result<Integer> chunk(HttpServletRequest request, HttpServletResponse response,
                                  @ApiParam(name = "md5", value = "String", required = true) String md5,
@@ -41,7 +41,7 @@ public class UploadFileController {
                                  @ApiParam(name = "上传文件", value = "MultipartFile对象", required = true) MultipartFile file,
                                  @ApiParam(name = "分片总数", value = "Integer", required = true) Integer chunks) {
         log.info("分片上传文件 md5={}, chunk={}, chunks={}, file={}", md5, chunk, chunks, file);
-        return service.chunk(request, response, md5, ext, chunk, file, chunks);
+        return service.chunk(request, response, md5, chunk, file, chunks);
     }
 
     /**
@@ -51,12 +51,12 @@ public class UploadFileController {
      * @param fileName
      * @throws Exception
      */
-    @RequestMapping("/merge")
+    @PostMapping("/merge")
     @ResponseBody
     @ApiOperation(value = "合并文件", notes = "合并文件接口/upload/merge", tags = "UploadFileController", httpMethod = "POST")
     public Result<Source> mergeFile(@ApiParam(name = "md5", value = "String", required = true) String md5,
                                     @ApiParam(name = "ext", value = "String", required = true) String ext,
-                                    @ApiParam(name = "文件名", value = "String", required = true) String fileName) {
+                                    @ApiParam(name = "fileName", value = "String", required = true) String fileName) {
         log.info("合并文件 md5={}, filename={}, ext={}", md5, fileName, ext);
         return service.mergeFile(md5, fileName, ext);
     }

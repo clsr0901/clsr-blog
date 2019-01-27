@@ -43,6 +43,18 @@ public interface MessageMapper {
     })
     @Select({"SELECT distinct tm.id, tm.message, tm.createTime, tu.username AS sourceUserName, tu1.username AS destUserName FROM t_message tm",
             "LEFT JOIN t_user tu ON tm.sourceUserId = tu.id",
+            "LEFT JOIN t_user tu1 ON tm.destUserId = tu1.id WHERE tm.id = #{id}"})
+    public MessageVO findById(@Param("id") int id);
+
+    @Results({
+            @Result(property = "id", column = "id"),
+            @Result(property = "message", column = "message"),
+            @Result(property = "destUserName", column = "destUserName"),
+            @Result(property = "sourceUserName", column = "sourceUserName"),
+            @Result(property = "createtime", column = "createtime"),
+    })
+    @Select({"SELECT distinct tm.id, tm.message, tm.createTime, tu.username AS sourceUserName, tu1.username AS destUserName FROM t_message tm",
+            "LEFT JOIN t_user tu ON tm.sourceUserId = tu.id",
             "LEFT JOIN t_user tu1 ON tm.destUserId = tu1.id WHERE tm.destUserId = #{destUserId} order by", CREATETIME, "desc"})
     public List<MessageVO> findAllByDestUserId(@Param("destUserId") int destUserId);
 

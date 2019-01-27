@@ -18,10 +18,12 @@ import java.util.List;
 
 @Configuration
 @Slf4j
-public class WebAppConfig extends WebMvcConfigurerAdapter{
+public class WebAppConfig extends WebMvcConfigurerAdapter {
 
     @Value("${upload-path}")
     private String filePath;
+    @Value("${blog-env}")
+    private String blogEnv;
 
     @Bean
     public HttpMessageConverter<String> responseBodyConverter() {
@@ -44,7 +46,7 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
     }
 
     @Bean
-    public MultipartConfigElement multipartConfigElement(){
+    public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
 //        //文件最大KB,MB
 //        factory.setMaxFileSize("5MB");
@@ -76,9 +78,14 @@ public class WebAppConfig extends WebMvcConfigurerAdapter{
                 .addResourceLocations("classpath:/META-INF/resources/")
                 .addResourceLocations("classpath:/resources/")
                 .addResourceLocations("classpath:/static/")
+                .addResourceLocations("/web/")
                 .addResourceLocations("classpath:/public/");
-//        registry.addResourceHandler("/source/**").addResourceLocations("file:///" + filePath);//linux
-        registry.addResourceHandler("/source/**").addResourceLocations("file:" + filePath);//windwos
+        if (blogEnv.equals("windows")) {
+            registry.addResourceHandler("/source/**").addResourceLocations("file:" + filePath);//windwos
+        } else {
+            registry.addResourceHandler("/source/**").addResourceLocations("file:///" + filePath);//linux
+        }
+        registry.addResourceHandler("/web/**").addResourceLocations("classpath:/static/index.html");
         super.addResourceHandlers(registry);
     }
 }

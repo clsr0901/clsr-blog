@@ -3,6 +3,7 @@ upload-path: F:/blog/resource/
 database-path: 127.0.0.1:3306
 database-username: root
 database-password: ktcatv
+blog-env: windows
 port: 8080
 log-path: F:/blog/log/
 

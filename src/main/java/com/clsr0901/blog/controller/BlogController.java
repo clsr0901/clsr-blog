@@ -35,7 +35,7 @@ public class BlogController {
         return blogService.post(blog);
     }
     @DeleteMapping("/delete/{id}")
-    @ApiOperation(value = "根据ID删除博客", notes = "根据ID删除博客接口/delete/{id}", tags = "BlogController", httpMethod = "DELETE")
+    @ApiOperation(value = "根据ID删除博客", notes = "根据ID删除博客接口/blog/delete/{id}", tags = "BlogController", httpMethod = "DELETE")
     public Result delete(@PathVariable("id") @ApiParam(name = "Blog ID", value = "传入博客id", required = true) int id) {
         log.info("根据ID删除博客 id={}", id);
         return blogService.delete(id);

@@ -23,7 +23,7 @@ public class CommentController {
 
     @PutMapping("/put")
     @ApiOperation(value = "新增评论", notes = "新增评论接口/comment/put", tags = "CommentController", httpMethod = "PUT")
-    public Result<Comment> put(@RequestBody @ApiParam(name = "Comment对象", value = "传入json格式", required = true) Comment comment){
+    public Result<CommentVO> put(@RequestBody @ApiParam(name = "Comment对象", value = "传入json格式", required = true) Comment comment){
         log.info("新增评论 comment={}", comment);
         return  commentService.put(comment);
     }

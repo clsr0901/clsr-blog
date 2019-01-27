@@ -9,7 +9,8 @@ public enum ExceptionEnum {
     BLOG_NOT_EXITS(512, "博客不存在"),
     UPLOAD_ERROR(513, "上传文件失败"),
     UPLOAD_CREATE_DIRECTORY_ERROR(513, "上传文件创建文件夹失败"),
-    UPLOAD_SAVE_FILE_ERROR(513, "上传文件创建文件夹失败"),
+    UPLOAD_SAVE_FILE_ERROR(513, "上传文件保存文件失败"),
+    PARAM_ERROR(514, "参数错误"),
 
     TOKEN_EXPIRED(417, "token失效"),
 

@@ -21,6 +21,6 @@ public class BlogApplication {
 
 	@RequestMapping("/")
 	public void redirect(HttpServletResponse response) throws IOException {
-		response.sendRedirect("/index.html");
+		response.sendRedirect("/web/index.html");
 	}
 }

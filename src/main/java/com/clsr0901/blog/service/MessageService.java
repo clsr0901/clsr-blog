@@ -25,7 +25,7 @@ public class MessageService {
         if (userMapper.findById(message.getSourceUserId()) == null || userMapper.findById(message.getDestUserId()) == null)
             throw new BException(ExceptionEnum.USER_NOT_EXITS);
         messageMapper.insert(message);
-        return ResultUtil.success();
+        return ResultUtil.success(messageMapper.findById(message.getId()));
     }
 
     public Result delete(int messageId) {
